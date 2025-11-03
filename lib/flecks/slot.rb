@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Flecks::Slot < Phlex::HTML
-	include Phlex::DeferredRender
-
 	def initialize(task)
 		task => Proc
 		@id = SecureRandom.urlsafe_base64
@@ -11,7 +9,10 @@ class Flecks::Slot < Phlex::HTML
 		@content = nil
 	end
 
-	def view_template
+	def view_template(&)
+		vanish(&)
+		super
+		
 		id = @id
 
 		div(data_phlex_slot: id, &@placeholder)
